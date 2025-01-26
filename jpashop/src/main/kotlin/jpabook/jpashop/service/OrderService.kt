@@ -6,6 +6,7 @@ import jpabook.jpashop.domain.OrderItem
 import jpabook.jpashop.repository.ItemRepository
 import jpabook.jpashop.repository.MemberRepository
 import jpabook.jpashop.repository.OrderRepository
+import jpabook.jpashop.repository.OrderSearch
 import org.hibernate.internal.build.AllowSysOut
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -53,8 +54,8 @@ class OrderService @Autowired protected constructor(
         order!!.cancel()
     }
 
-    //검색
-    //fun findOrders(orderSearch : OrderSearch){
-    //
-    //}
+
+    fun findOrders(orderSearch : OrderSearch): MutableList<Order> {
+        return orderRepository.findAllByString(orderSearch)
+    }
 }

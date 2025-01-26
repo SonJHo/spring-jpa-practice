@@ -47,14 +47,13 @@ class Order {
     }
 
     //생성메서드
-    companion object{
-        fun createOrder(member: Member, delivery: Delivery, vararg orderItems: OrderItem): Order {
+    companion object {
+        fun createOrder(member: Member, delivery: Delivery, orderItem: OrderItem): Order {
             val order = Order()
             order.member = member
             order.delivery = delivery
-            for (orderItem in orderItems) {
-                order.orderItems.add(orderItem)
-            }
+            order.addOrderItem(orderItem)
+
             order.status = OrderStatus.ORDER
             order.orderDate = LocalDateTime.now()
             return order
@@ -78,6 +77,7 @@ class Order {
         }
     }
 
+
     /**
      * 젠체 주문 가격 조회
      */
@@ -88,6 +88,10 @@ class Order {
         }
 
         return totalPrice
+    }
+
+    override fun toString(): String {
+        return "Order(id=$id, member=$member, orderItems=$orderItems, delivery=$delivery, orderDate=$orderDate, status=$status)"
     }
 
 

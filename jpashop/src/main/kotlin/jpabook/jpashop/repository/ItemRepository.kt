@@ -23,7 +23,7 @@ class ItemRepository(
     }
 
     fun findAll(): MutableList<Item>? {
-        return em.createQuery("select i from i", Item::class.java)
+        return em.createQuery("select i from Item i", Item::class.java)
             .resultList
     }
 }

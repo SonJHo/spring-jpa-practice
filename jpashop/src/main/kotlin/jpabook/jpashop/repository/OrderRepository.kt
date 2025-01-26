@@ -1,10 +1,8 @@
 package jpabook.jpashop.repository
 
-import ch.qos.logback.core.util.StringUtil
 import jakarta.persistence.EntityManager
 import jakarta.persistence.criteria.JoinType
 import jakarta.persistence.criteria.Predicate
-import jpabook.jpashop.domain.Member
 import jpabook.jpashop.domain.Order
 import org.springframework.stereotype.Repository
 import org.springframework.util.StringUtils
@@ -22,15 +20,40 @@ class OrderRepository(
         return em.find(Order::class.java, id)
     }
 
-    fun findAll(orderSearch: OrderSearch): MutableList<Order>? {
+    fun findAllByString(orderSearch: OrderSearch): MutableList<Order> {
+        var jpql = "select o from Order o join o.member m"
+        var isFirstCondition = true
 
-        val jpql = "select o from Order o join o.member m"
+        //주문 상태 검색
+        if (orderSearch.orderStatus != null) {
+            if (isFirstCondition) {
+                jpql += " where"
+                isFirstCondition = false
+            } else {
+                jpql += " and"
+            }
+            jpql += " o.status = :status"
+        }
 
-        return em.createQuery(
-            jpql, Order::class.java
-        ).setMaxResults(1000).resultList
-
-
+        //회원 이름 검색
+        if (StringUtils.hasText(orderSearch.memberName)) {
+            if (isFirstCondition) {
+                jpql += " where"
+                isFirstCondition = false
+            } else {
+                jpql += " and"
+            }
+            jpql += " m.name like :name"
+        }
+        var query = em.createQuery(jpql, Order::class.java)
+            .setMaxResults(1000)
+        if (orderSearch.orderStatus != null) {
+            query = query.setParameter("status", orderSearch.orderStatus)
+        }
+        if (StringUtils.hasText(orderSearch.memberName)) {
+            query = query.setParameter("name", orderSearch.memberName)
+        }
+        return query.resultList
     }
 
     fun findAllByCriteria(orderSearch: OrderSearch): MutableList<Order>? {
