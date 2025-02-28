@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import jpabook.jpashop.domain.item.Item
 import kotlin.time.times
@@ -18,6 +19,8 @@ class OrderItem protected constructor(){
     @JoinColumn(name = "item_id")
     var item: Item? = null
 
+
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     var order: Order? = null

@@ -49,17 +49,19 @@ class Order {
 
     //생성메서드
     companion object {
-        fun createOrder(member: Member, delivery: Delivery, orderItem: OrderItem): Order {
+        fun createOrder(member: Member, delivery: Delivery, vararg orderItem: OrderItem): Order {
             val order = Order()
             order.member = member
             order.delivery = delivery
-            order.addOrderItem(orderItem)
+            for (orderItem1 in orderItem) {
+                order.addOrderItem(orderItem1)
+            }
+
 
             order.status = OrderStatus.ORDER
             order.orderDate = LocalDateTime.now()
             return order
         }
-
     }
 
 

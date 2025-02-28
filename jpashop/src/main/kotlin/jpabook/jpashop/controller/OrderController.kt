@@ -47,8 +47,6 @@ class OrderController(
         model: Model
     ): String {
         val orders = orderService.findOrders(orderSearch)
-
-
         model.addAttribute("orders", orders)
 
         return "order/orderList"

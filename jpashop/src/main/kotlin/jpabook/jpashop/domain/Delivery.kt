@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
 
@@ -11,6 +12,8 @@ class Delivery {
     @Column(name = "delivery_id")
     val id :Long? = null
 
+
+    @JsonIgnore
     @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
     var order :Order? = null
     @Embedded

@@ -23,6 +23,7 @@ class Member (
     var address: Address? = null,
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     val orders: MutableList<Order> = mutableListOf()
     )
