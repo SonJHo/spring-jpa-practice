@@ -32,6 +32,7 @@ class Order {
             field = value
             value?.order = this
         }
+
     var orderDate: LocalDateTime? = null //주문시간
 
 
